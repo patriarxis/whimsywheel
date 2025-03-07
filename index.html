@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FlexCar Spin Wheel</title>
+    <meta
+      name="description"
+      content="Try your luck with FlexCar's Spin Wheel for a chance to win amazing prizes. Spin now and see if you can drive away with exciting rewards!"
+    />
+
+    <!-- SEO Meta Tags -->
+    <meta
+      name="description"
+      content="Try your luck with FlexCar's Spin Wheel for a chance to win amazing prizes. Spin now and see if you can drive away with exciting rewards!"
+    />
+    <meta
+      name="keywords"
+      content="FlexCar, Spin Wheel, prizes, rewards, game, win, car leasing, FlexCar Spin, lucky draw"
+    />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://hub.flexcar.com/spin-wheel" />
+    <meta property="og:title" content="Spin Wheel | FlexCar" />
+    <meta
+      property="og:description"
+      content="Spin the FlexCar Wheel and win exclusive rewards! Click to spin and see if luck is on your side!"
+    />
+    <meta
+      property="og:image"
+      content="https://hub.flexcar.gr/hubfs/Landing%20Pages/Spin%20Wheel/Images/Meta-Image.jpg"
+    />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://hub.flexcar.com/spin-wheel" />
+    <meta property="twitter:title" content="Spin Wheel | FlexCar" />
+    <meta
+      property="twitter:description"
+      content="Try the FlexCar Spin Wheel for a chance to win prizes! Spin now and get lucky!"
+    />
+    <meta
+      property="twitter:image"
+      content="https://hub.flexcar.gr/hubfs/Landing%20Pages/Spin%20Wheel/Images/Meta-Image.jpg"
+    />
+
+    <link rel="stylesheet" href="./spin-wheel.css" />
+    <script src="./spin-wheel.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.3/dragula.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.3/dragula.min.css"
+    />
+    <script src="https://unpkg.com/konva@9/konva.min.js"></script>
+  </head>
+  <body>
+    <main>
+      <div class="container">
+        <img class="notch" src="./assets/images/notch.svg" />
+        <button class="settings-button button" onclick="openSettingsModal()">
+          <img src="./assets/images/buttons/settings-button.svg" />
+        </button>
+        <div class="grid"></div>
+        <div class="bottom-shadow"></div>
+        <div class="wheel-container">
+          <img class="wheel-arrow" src="./assets/images/arrow.svg" />
+          <img class="wheel-background" src="./assets/images/spin-wheel.svg" />
+          <div id="wheel-stage" class="wheel"></div>
+          <button class="spin-button button" onclick="spinWheel()">
+            <img src="./assets/images/buttons/spin-button.svg" />
+          </button>
+        </div>
+        <div class="pacman-container">
+          <div class="pacman-wrapper">
+            <img src="./assets/images/pacman.png" alt="" class="pacman" />
+            <div class="dots"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-menu modal-container" data-state="closed">
+        <div class="modal">
+          <button onclick="closeSettingsModal()" class="close-modal-btn button">
+            <img src="./assets/images/buttons/close-button.svg" />
+          </button>
+
+          <div class="modal-content">
+            <h2 class="settings-title">Settings</h2>
+
+            <div class="prizes-table">
+              <div class="prizes-header">
+                <h3 class="prizes-title">Prizes</h3>
+                <span>Probability</span>
+                <span>Type</span>
+                <span>Rearrange</span>
+                <span>Remove</span>
+              </div>
+
+              <ul class="prizes"></ul>
+
+              <button class="add-prize-button" onclick="addNewPrize()">
+                + Add prize
+              </button>
+            </div>
+
+            <div class="modal-buttons two">
+              <button
+                class="settings-cancel modal-button button"
+                onclick="cancelSettings()"
+              >
+                <img src="./assets/images/buttons/cancel-button.svg" />
+              </button>
+
+              <button
+                class="settings-apply modal-button button"
+                onclick="applySettings()"
+              >
+                <img src="./assets/images/buttons/apply-button.svg" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="winning-modal modal-container" data-state="closed">
+        <div class="modal">
+          <button onclick="closeWinningModal()" class="close-modal-btn button">
+            <img src="./assets/images/buttons/close-button.svg" />
+          </button>
+
+          <div class="modal-content">
+            <img class="you-won" src="./assets/images/you-won.svg" />
+
+            <img class="winning-prize-img" />
+
+            <div class="winning-prize-info"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="try-again-modal modal-container" data-state="closed">
+        <div class="modal">
+          <button onclick="closeTryAgainModal()" class="close-modal-btn button">
+            <img src="./assets/images/buttons/close-button.svg" />
+          </button>
+
+          <div class="modal-content">
+            <div class="try-again-img">
+              <img src="./assets/images/prizes/try-again.webp" />
+            </div>
+
+            <div class="try-again-info">
+              <h3 class="try-again-title">Sorry, you are already Flex</h3>
+              <p class="try-again-description">
+                Don't worry, you can try again in the future
+              </p>
+            </div>
+          </div>
+
+          <div class="modal-buttons one">
+            <button
+              onclick="closeTryAgainModal()"
+              class="retry-button modal-button button"
+            >
+              <img src="./assets/images/buttons/retry-button.svg" />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <datalist id="propabilityNumbers">
+        <option value="100"></option>
+        <option value="75"></option>
+        <option value="50"></option>
+        <option value="25"></option>
+        <option value="10"></option>
+        <option value="5"></option>
+        <option value="2"></option>
+        <option value="1"></option>
+        <option value="0.1"></option>
+        <option value="0.01"></option>
+        <option value="0"></option>
+      </datalist>
+    </main>
+  </body>
+</html>
